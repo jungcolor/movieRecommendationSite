@@ -28,7 +28,7 @@ function Auth(SpecificComponent: React.ComponentType, option?: boolean, adminRou
                     }
                     else { // 로그인 한 상태 - 회원
                         if (!option) {
-                            navigate("/");
+                            // navigate("/");
                             // setAuthUser(response.payload);
                         }
                     }

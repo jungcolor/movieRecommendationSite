@@ -26,9 +26,9 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.(css)$/,
+                test: /\.(css|sass|scss)$/,
                 exclude: [path.resolve(__dirname, 'node_modules')],
-                use: ['style-loader', 'css-loader']
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
@@ -44,7 +44,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
         }),
-        new ForkTsCheckerWebpackPlugin() // Typescript 컴파일 속도 향상을 위한 플러그인
+        new ForkTsCheckerWebpackPlugin(), // Typescript 컴파일 속도 향상을 위한 플러그인
     ],
     stats: 'errors-only'
 }

@@ -1,6 +1,8 @@
 import { BOARD_WRITER, BOARD_REMOVE, BOARD_UPDATE, BOARD_SERACH } from "../actions/types";
 
-export default function (state: object = {}, action: { type: string; payload: object }) {
+const initialState = {};
+
+export default function (state: object = initialState, action: { type: string; payload: object }) {
     switch (action.type) {
         case BOARD_WRITER:
             return { ...state, writeData: action.payload };

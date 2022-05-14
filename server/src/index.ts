@@ -4,15 +4,10 @@ import * as cookieParser from "cookie-parser";
 // import config from "./config/key";
 import User from "./models/User";
 import Board from "./models/Board";
+import Comment from "./models/Comment";
 import auth from "./middleware/auth";
 const app = express();
 const port = 5000;
-
-// application/x-www.form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-// apllication/json
-app.use(bodyParser.json());
-app.use(cookieParser());
 
 import mongoose = require("mongoose");
 mongoose
@@ -20,9 +15,17 @@ mongoose
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("hello world!~~~ 안녕하세요"));
+// application/x-www.form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+// apllication/json
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-// 게시판 server api 작업
+
+// ================================= 각각 맞는 모듈로 분리 작업 =================================
+
+
+// BOARD ==============================================================================================================================
 app.get("/api/board/list", (req, res) => {
     Board.find((err, list) => {
         if (err) return res.json({ success: false, err });
@@ -80,6 +83,7 @@ app.post("/api/board/remove", (req, res) => {
     });
 });
 
+// USER ==============================================================================================================================
 app.post("/api/users/register", (req, res) => {
     // 회원 가입 할 때 필요한 정보들을 client에서 가져오면
     // 가져온 데이터들을 데이터 베이스에 넣어준다.
@@ -140,6 +144,34 @@ app.get("/api/users/auth", auth, (req: any, res) => {
         role: req.user.role,
         image: req.user.image,
     });
+});
+
+
+// COMMENT ==============================================================================================================================
+app.post("/api/comment/saveComment", (req: any, res) => {
+    const comment = new Comment(req.body);
+
+    comment.save((err, comment) => {
+        if (err) return res.json({ success: false, err });
+
+        Comment.find({ '_id': comment._id })
+            .populate("writer")
+            .exec((err, result) => {
+                if (err) return res.json({ success: false, err });
+                res.status(200).json({ success: true, result });
+            });
+    });
+});
+
+app.post("/api/comment/getComments", (req: any, res) => {
+    const comment = new Comment(req.body);
+
+    comment.find({ 'postId': req.body })
+        .populate('writer')
+        .exec(( err, comments ) => {
+            if (err) return res.status(200).send(err);
+            res.status(200).json({ success: true, comments });
+        });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}`));

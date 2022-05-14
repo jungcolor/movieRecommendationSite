@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from "redux";
 import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import Reducer from "./reducers";
-import LayoutPage from "./components/layouts/LayoutPage";
+import PageContainer from "./components/pages/PageContainer";
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
@@ -14,7 +14,7 @@ ReactDOM.render(
     <Provider store={createStoreWithMiddleware(Reducer, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__())}>
         <BrowserRouter>
             <Routes>
-                <Route path="*" element={<LayoutPage />}></Route>
+                <Route path="*" element={<PageContainer />}></Route>
             </Routes>
         </BrowserRouter>
     </Provider>,
