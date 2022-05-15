@@ -4,21 +4,21 @@ import SingleCommentContainer from './SingleCommentContainer';
 interface IProps {
     children?: ReactChildren;
     commentValue: string;
+    comments: object[];
     handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     handleSubmit: (e: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => void;
 }
 
-function Comment({ commentValue, ...rest }: IProps) {
+function Comment({ comments, commentValue, ...rest }: IProps) {
     const { handleChange, handleSubmit } = rest;
 
     return (
         <div>
-            <br />
-            <p>Replies</p>
+            <p>댓글</p>
             <hr />
-
-            <SingleCommentContainer />
-
+            {comments?.map((comment, idx) => {
+                return <SingleCommentContainer key={idx} comment={comment} />;
+            })}
             <form style={{ display: "flex" }} onSubmit={handleSubmit}>
                 <textarea style={{ width: "100%", borderRadius: "5px", resize: "none" }} value={commentValue} placeholder="코멘트를 작성해 주세요" onChange={handleChange} />
                 <br />

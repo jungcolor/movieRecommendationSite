@@ -4,13 +4,14 @@ import { Avatar, Button, Grid, Input } from '@mui/material';
 interface IProps {
     children?: ReactChild;
     openReply: boolean;
+    comment: any;
     commentValue?: string;
     handleClickReply?: () => void;
     handleChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     handleSubmit?: (e: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => void;
 }
 
-function SingleComment({ openReply, commentValue, ...rest }: IProps): JSX.Element {
+function SingleComment({ openReply, comment, commentValue, ...rest }: IProps): JSX.Element {
     const { handleClickReply, handleChange, handleSubmit } = rest;
     const actions = [
         <span key="commnet-basic-reply-to" onClick={handleClickReply} style={{ fontSize: "12px", cursor: "pointer" }}>
@@ -19,14 +20,14 @@ function SingleComment({ openReply, commentValue, ...rest }: IProps): JSX.Elemen
     ];
 
     return (
-        <div>
+        <div style={{ marginBottom: "20px" }}>
             <Grid container wrap="nowrap" spacing={2}>
                 <Grid item>
                     <Avatar alt="user" src="" />
                 </Grid>
                 <Grid justifyContent="left" item xs zeroMinWidth>
-                    <h4 style={{ margin: 0, textAlign: "left" }}>11</h4>
-                    <p style={{ textAlign: "left" }}>222</p>
+                    <h4 style={{ margin: 0, textAlign: "left" }}>{comment.writer.name}</h4>
+                    <p style={{ margin: "5px 0", textAlign: "left" }}>{comment.content}</p>
                     {actions}
                 </Grid>
             </Grid>

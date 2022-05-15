@@ -164,9 +164,7 @@ app.post("/api/comment/saveComment", (req: any, res) => {
 });
 
 app.post("/api/comment/getComments", (req: any, res) => {
-    const comment = new Comment(req.body);
-
-    comment.find({ 'postId': req.body })
+    Comment.find({ 'postId': req.body })
         .populate('writer')
         .exec(( err, comments ) => {
             if (err) return res.status(200).send(err);

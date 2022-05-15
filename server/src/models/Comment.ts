@@ -18,8 +18,7 @@ const commentSchema = new mongoose.Schema(
         content: {
             type: String
         }
-    },
-    { timestamps: true }
+    }
 );
 
 const Comment = mongoose.model("Comment", commentSchema);

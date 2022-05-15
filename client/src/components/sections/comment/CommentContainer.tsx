@@ -10,18 +10,16 @@ function CommentContainer() {
     const [comments, setComments] = useState([]);
     const [commentValue, setCommentValue] = useState("");
 
-    // useEffect(() => {
-    //     axios.post('/api/comment/getComments').then(response => {
-    //         if (response.data.success) {
-    //             setComments(response.data.comments);
-
-    //             console.log(comments);
-    //         }
-    //         else {
-    //             alert('코멘트 정보를 가져오는 것을 실패 하였습니다.');
-    //         }
-    //     });
-    // }, []);
+    useEffect(() => {
+        axios.post('/api/comment/getComments').then(response => {
+            if (response.data.success) {
+                setComments(response.data.comments);
+            }
+            else {
+                alert('코멘트 정보를 가져오는 것을 실패 하였습니다.');
+            }
+        });
+    }, []);
 
     // 코멘트 목록 저장
     // UI 업데이트
@@ -43,16 +41,16 @@ function CommentContainer() {
 
         axios.post("/api/comment/saveComment", variables).then(response => {
             if (response.data.success) {
-                console.log(response.data.result);
+                setComments(comments.concat(response.data.result));
                 setCommentValue('');
             }
             else {
-                alert('커멘트를 저장하지 못했습니다');
+                alert('error');
             }
         });
     };
 
-    return <Comment commentValue={commentValue} handleSubmit={handleSubmit} handleChange={handleChange} />;
+    return <Comment comments={comments} commentValue={commentValue} handleSubmit={handleSubmit} handleChange={handleChange} />;
 }
 
 export default Auth(CommentContainer, null);
